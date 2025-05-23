@@ -1,1 +1,838 @@
-Hi
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danny Nguyen | Space Explorer</title>
+    <style>
+        /* Space Theme Variables */
+        :root {
+            --space-dark: #0a0e17;
+            --space-medium: #1a2639;
+            --space-light: #394867;
+            --space-accent: #9ba4b4;
+            --star-color: #ffffff;
+            --planet-1: #8a2be2;
+            --planet-2: #4169e1;
+            --planet-3: #32cd32;
+            --text-primary: #ffffff;
+            --text-secondary: #9ba4b4;
+            --glow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+            color: var(--text-primary);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--space-dark);
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Star Animation */
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        .star {
+            position: absolute;
+            background-color: var(--star-color);
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        /* Floating Planets */
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            z-index: -1;
+        }
+
+        .planet-1 {
+            width: 100px;
+            height: 100px;
+            background: var(--planet-1);
+            top: 15%;
+            right: 10%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .planet-2 {
+            width: 150px;
+            height: 150px;
+            background: var(--planet-2);
+            bottom: 10%;
+            left: 5%;
+            animation: float 20s infinite ease-in-out reverse;
+        }
+
+        .planet-3 {
+            width: 80px;
+            height: 80px;
+            background: var(--planet-3);
+            top: 60%;
+            right: 15%;
+            animation: float 12s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 23, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--space-accent);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            text-shadow: var(--glow);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--text-primary);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Main Content */
+        main {
+            padding-top: 100px;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 80px 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1, h2 {
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-shadow: var(--glow);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            bottom: -10px;
+            left: 0;
+            background: linear-gradient(90deg, var(--text-primary), transparent);
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            max-width: 800px;
+        }
+
+        /* Hero Section */
+        #hero {
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            animation: fadeIn 2s ease 0.5s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-20px) translateX(-50%); }
+            60% { transform: translateY(-10px) translateX(-50%); }
+        }
+
+        .scroll-down svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--text-primary);
+        }
+
+        /* About Section */
+        #about {
+            background: linear-gradient(to bottom, var(--space-dark), var(--space-medium));
+        }
+
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .terminal {
+            background: var(--space-medium);
+            border: 1px solid var(--space-accent);
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--space-accent);
+            padding-bottom: 10px;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .terminal-button.red { background-color: #ff5f56; }
+        .terminal-button.yellow { background-color: #ffbd2e; }
+        .terminal-button.green { background-color: #27c93f; }
+
+        .terminal-title {
+            margin-left: 10px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .terminal-body {
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+        }
+
+        .command {
+            color: #64ffda;
+            margin-bottom: 10px;
+        }
+
+        .command::before {
+            content: '$ ';
+            color: var(--text-secondary);
+        }
+
+        .response {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: var(--text-primary);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        /* Projects Section */
+        #projects {
+            background: linear-gradient(to bottom, var(--space-medium), var(--space-light));
+        }
+
+        .project-card {
+            background: rgba(26, 38, 57, 0.8);
+            border: 1px solid var(--space-accent);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #64ffda;
+        }
+
+        .project-description {
+            margin-bottom: 20px;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .tech-tag {
+            background: var(--space-dark);
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .project-links {
+            display: flex;
+        }
+
+        .project-link {
+            display: inline-block;
+            margin-right: 20px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: #64ffda;
+            text-shadow: var(--glow);
+        }
+
+        .project-link svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        /* Credentials Section */
+        #credentials {
+            background: linear-gradient(to bottom, var(--space-light), var(--space-medium));
+        }
+
+        .credential-card {
+            background: rgba(26, 38, 57, 0.8);
+            border: 1px solid var(--space-accent);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            max-width: 800px;
+            transition: transform 0.3s ease;
+        }
+
+        .credential-card:hover {
+            transform: translateX(10px);
+        }
+
+        .credential-icon {
+            font-size: 2.5rem;
+            margin-right: 20px;
+            color: #64ffda;
+        }
+
+        .credential-details h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .credential-details p {
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Contact Section */
+        #contact {
+            background: linear-gradient(to bottom, var(--space-medium), var(--space-dark));
+            text-align: center;
+        }
+
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .contact-method {
+            background: rgba(26, 38, 57, 0.8);
+            border: 1px solid var(--space-accent);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 0 20px 30px;
+            width: 250px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-method:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #64ffda;
+        }
+
+        .contact-label {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .contact-value {
+            color: var(--text-secondary);
+        }
+
+        .contact-value a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-value a:hover {
+            color: #64ffda;
+            text-shadow: var(--glow);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--space-dark);
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid var(--space-accent);
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            nav ul li {
+                margin: 0 10px;
+            }
+
+            nav ul li a {
+                font-size: 1rem;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            section {
+                padding: 60px 5%;
+            }
+
+            .contact-methods {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-method {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 0 20px;
+            }
+
+            .planet-1, .planet-2, .planet-3 {
+                opacity: 0.5;
+            }
+        }
+
+        /* Interactive Elements */
+        .interactive-button {
+            display: inline-block;
+            background: transparent;
+            border: 2px solid #64ffda;
+            color: #64ffda;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interactive-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(100, 255, 218, 0.1);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .interactive-button:hover {
+            color: var(--text-primary);
+            text-shadow: var(--glow);
+        }
+
+        .interactive-button:hover::before {
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Stars Background -->
+    <div id="stars-container"></div>
+
+    <!-- Floating Planets -->
+    <div class="planet planet-1"></div>
+    <div class="planet planet-2"></div>
+    <div class="planet planet-3"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#credentials">Credentials</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Danny Nguyen</h1>
+                <p class="hero-subtitle">Explorer of Digital Frontiers</p>
+                <a href="#about" class="interactive-button">Begin Exploration</a>
+            </div>
+            <div class="scroll-down">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                </svg>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <p>Welcome to my cosmic corner of the web! I'm Danny Nguyen, a digital explorer navigating through the vast universe of technology and creativity.</p>
+                
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-button red"></div>
+                        <div class="terminal-button yellow"></div>
+                        <div class="terminal-button green"></div>
+                        <div class="terminal-title">danny@cosmic-terminal: ~/about</div>
+                    </div>
+                    <div class="terminal-body">
+                        <p class="command">whoami</p>
+                        <p class="response">A passionate developer with interests in game development, web technologies, and creative coding. I'm constantly exploring new technologies and pushing the boundaries of what I can create.</p>
+                        
+                        <p class="command">cat interests.txt</p>
+                        <p class="response">• Game Development<br>• Web Design<br>• Creative Coding<br>• Problem Solving<br>• Space Exploration</p>
+                        
+                        <p class="command">cat aspirations.txt</p>
+                        <p class="response">I aspire to create immersive digital experiences that combine technology with creativity. My goal is to continue learning and growing as a developer while contributing meaningful projects to the digital universe.</p>
+                        
+                        <p class="command">_<span class="cursor"></span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2>Projects</h2>
+            <div class="project-card">
+                <h3 class="project-title">Simple Survival Game</h3>
+                <p class="project-description">A survival game where players must navigate challenges and manage resources to stay alive in a hostile environment. This project demonstrates my skills in game mechanics, resource management systems, and creating engaging user experiences.</p>
+                <div class="project-tech">
+                    <span class="tech-tag">Game Development</span>
+                    <span class="tech-tag">Programming</span>
+                    <span class="tech-tag">Game Design</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Danngyen/Simple-Survival-Game" class="project-link" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        GitHub Repository
+                    </a>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <h3 class="project-title">Space Portfolio</h3>
+                <p class="project-description">This very portfolio you're exploring! A creative, space-themed personal website showcasing my projects, skills, and contact information. Built with HTML, CSS, and JavaScript to create an immersive, interactive experience.</p>
+                <div class="project-tech">
+                    <span class="tech-tag">HTML</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Web Design</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Danngyen/Danngyen" class="project-link" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        GitHub Repository
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Credentials Section -->
+        <section id="credentials">
+            <h2>Credentials</h2>
+            <div class="credential-card">
+                <div class="credential-icon">🎓</div>
+                <div class="credential-details">
+                    <h3>High School Degree</h3>
+                    <p>Completed high school education with a focus on technology and computer science.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2>Contact Me</h2>
+            <p>Ready to connect? Reach out through any of these communication channels:</p>
+            
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <div class="contact-icon">📱</div>
+                    <div class="contact-label">Phone</div>
+                    <div class="contact-value">619-721-6796</div>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">
+                        <a href="mailto:dannyphongnguyen@gmail.com">dannyphongnguyen@gmail.com</a>
+                    </div>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">💻</div>
+                    <div class="contact-label">GitHub</div>
+                    <div class="contact-value">
+                        <a href="https://github.com/Danngyen" target="_blank">github.com/Danngyen</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-text">© 2025 Danny Nguyen | Designed with 💫 and code</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Create stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars-container');
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random size between 1-3px
+                const size = Math.random() * 2 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Random position
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation delay
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Typing effect for terminal
+        function typeEffect() {
+            const commands = document.querySelectorAll('.command');
+            const responses = document.querySelectorAll('.response');
+            
+            // Hide all commands and responses initially
+            commands.forEach(cmd => cmd.style.opacity = '0');
+            responses.forEach(res => res.style.opacity = '0');
+            
+            // Show them one by one with delay
+            let delay = 1000;
+            for (let i = 0; i < commands.length; i++) {
+                setTimeout(() => {
+                    commands[i].style.opacity = '1';
+                    
+                    // Show response after command
+                    setTimeout(() => {
+                        if (responses[i]) responses[i].style.opacity = '1';
+                    }, 500);
+                    
+                }, delay);
+                
+                delay += 1500;
+            }
+        }
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Initialize
+        window.addEventListener('load', () => {
+            createStars();
+            
+            // Start typing effect when about section is in view
+            const aboutSection = document.getElementById('about');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        typeEffect();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            observer.observe(aboutSection);
+        });
+        
+        // Parallax effect for planets
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            
+            document.querySelector('.planet-1').style.transform = `translateY(${scrollPosition * 0.05}px) rotate(${scrollPosition * 0.02}deg)`;
+            document.querySelector('.planet-2').style.transform = `translateY(${scrollPosition * -0.03}px) rotate(${scrollPosition * -0.01}deg)`;
+            document.querySelector('.planet-3').style.transform = `translateY(${scrollPosition * 0.07}px) rotate(${scrollPosition * 0.03}deg)`;
+        });
+    </script>
+</body>
+</html>
